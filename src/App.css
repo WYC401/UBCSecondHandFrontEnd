@@ -1,31 +1,81 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* .sidenav {
+  height: 100%;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+
+
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
+} */
+
+.sidenav {
+  height: 100%;
+  width: 20%;
+  position: relative;
+  left: 0;
+  top: 0;
+  padding-top: 40px;
+  
+  background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex-basis: 20%;
+  }
+
+.main {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  left: 0;
+  top: 0;
+  font-size: 18px;
+  flex-basis: 80%;
+
+ /* Same as the width of the sidenav */
 }
 
-.App-link {
-  color: #61dafb;
+.sidenav div {
+  padding: 8px;
+  font-size: 24px;
+  display: block;
+
+}
+
+.downBackground{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 10%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  
+}
+
+.upperMenue{
+  height:10%;
+  width: 100%;
+  position: sticky;
+  left: 0;
+  top: 0;
+
+ 
+}
+
+.wholeBackground{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display:block;
 }
 
 @keyframes App-logo-spin {
