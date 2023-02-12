@@ -77,6 +77,27 @@
   top: 0;
   display:block;
 }
+.itemBox {
+  position: relative;
+  width: 80%;
+  padding:10%;
+}
+
+.itemImage{
+  position: absolute;
+  top:0;
+  left:0;
+  height: 80%;
+  width: 20%;
+}
+
+.itemText{
+  position: absolute;
+  top:0;
+  left:20%;
+  height: 80%;
+  width: 80%;
+}
 
 @keyframes App-logo-spin {
   from {
