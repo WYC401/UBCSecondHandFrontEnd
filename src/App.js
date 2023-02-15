@@ -4,12 +4,27 @@ import SideMenu from"./components/SideMenu.js";
 import UpperMenue from './components/UpperMenue';
 import ItemBox from './components/ItemBox';
 import React, { Component } from 'react';
-
+import ItemInputPage from './components/ItemInputPage';
 
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      atHistoryPage: true
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(name) {
+    if(name==="Post New Item") {
+      this.setState({atHistoryPage: false});
+    } else {
+      this.setState({atHistoryPage: true});
+    }
+  }
 
   render() {
+    
     const itemList = [
       {
         id:"1",
@@ -28,17 +43,23 @@ export default class App extends React.Component {
         description: "a 95% new iphone only used for 2 months"
       }
     ]
-    console.log(itemList);
+    //console.log(itemList);
     const ItemBoxList = itemList.map((item)=>{
       return <li key={item.id}>{<ItemBox imgPath={item.imgPath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
     });
+    let mainPage = null; 
+    if(this.state.atHistoryPage) {
+      mainPage =  <div className="main"><ul>{ItemBoxList}</ul></div>;
+    }else {
+      mainPage = <div className='main'><ItemInputPage/></div>
+    }
     console.log(ItemBoxList);
     return (
       <div className='wholeBackground'>
       <UpperMenue/>
       <div  className="downBackground">
-        <SideMenu/>
-        <div className="main"><ul>{ItemBoxList}</ul></div>
+        <SideMenu onClick={this.handleClick}/>
+        {mainPage}
       </div>
       </div>
     );
