@@ -15,7 +15,7 @@ class ItemDropdown extends React.Component {
 }
 export default class ItemBox extends React.Component {
     render() {
-   
+
         return (
         <div className="itemBox">
             <div className = "itemImage">
