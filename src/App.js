@@ -5,21 +5,34 @@ import UpperMenue from './components/UpperMenue';
 import ItemBox from './components/ItemBox';
 import React, { Component } from 'react';
 import ItemInputPage from './components/ItemInputPage';
-
+import SearchBox from './components/FilterBox';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      atHistoryPage: true
+      atHistoryPage: true,
+      atWhichPage: "search"
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSideMenuClick = this.handleSideMenuClick.bind(this);
+
+    this.handleUpperMenuClick = this.handleUpperMenuClick.bind(this);
   }
-  handleClick(name) {
+  handleSideMenuClick(name) {
     if(name==="Post New Item") {
       this.setState({atHistoryPage: false});
     } else {
       this.setState({atHistoryPage: true});
+    }
+  }
+
+  handleUpperMenuClick(name) {
+    if(name === "Search Page") {
+      this.setState({ atWhichPage: "search"})
+    }
+
+    if(name === "Item Page") {
+      this.setState({ atWhichPage: "item"})
     }
   }
 
@@ -47,20 +60,28 @@ export default class App extends React.Component {
     const ItemBoxList = itemList.map((item)=>{
       return <li key={item.id}>{<ItemBox imgPath={item.imgPath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
     });
-    let mainPage = null; 
+    let MainPageItem = null; 
     if(this.state.atHistoryPage) {
-      mainPage =  <div className="main"><ul>{ItemBoxList}</ul></div>;
+      MainPageItem =  <div className="main"><ul>{ItemBoxList}</ul></div>;
     }else {
-      mainPage = <div className='main'><ItemInputPage/></div>
+      MainPageItem = <div className='main'><ItemInputPage/></div>
     }
-    console.log(ItemBoxList);
+    let MainPage = null;
+    if(this.state.atWhichPage === "search") {
+      MainPage = <div><SearchBox/></div>
+    } else if(this.state.atWhichPage === "item") {
+      MainPage = (
+        <div  className="downBackground">
+        <SideMenu onClick={this.handleSideMenuClick}/>
+        {MainPageItem}
+      </div>
+      )
+    }
+    //console.log(ItemBoxList);
     return (
       <div className='wholeBackground'>
-      <UpperMenue/>
-      <div  className="downBackground">
-        <SideMenu onClick={this.handleClick}/>
-        {mainPage}
-      </div>
+      <UpperMenue onClick={this.handleUpperMenuClick}/>
+      {MainPage}
       </div>
     );
   }
