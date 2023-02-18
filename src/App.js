@@ -12,7 +12,10 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       atHistoryPage: true,
-      atWhichPage: "search"
+      atWhichPage: "search",
+      searchString: "",
+      priceRange: "",
+      cateogry:""
     };
     this.handleSideMenuClick = this.handleSideMenuClick.bind(this);
 
@@ -68,7 +71,7 @@ export default class App extends React.Component {
     }
     let MainPage = null;
     if(this.state.atWhichPage === "search") {
-      MainPage = <div><SearchBox/></div>
+      MainPage = <div  className="downBackground"><SearchBox onSearchStringChange={(searchString) => {this.setState({searchString:searchString })}} searchString={this.state.searchString} onPriceRangeChange={(range)=> {this.setState({priceRange: range})}} priceRange={this.state.priceRange} onCategoryChange={(category)=>{this.setState({category: category})}} category={this.state.category}/></div>
     } else if(this.state.atWhichPage === "item") {
       MainPage = (
         <div  className="downBackground">
