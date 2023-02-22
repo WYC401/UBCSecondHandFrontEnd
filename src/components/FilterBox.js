@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import "../App.css";
+import ItemBox from "./ItemBox";
 export default class SearchBox extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
     }
     handleChange(event) {
         if(event.target.id === "searchString") {
@@ -18,13 +20,19 @@ export default class SearchBox extends React.Component {
         
     }
 
+    handleKeyDown(event) {
+        if(event.key==='Enter' && event.target.id === 'searchString') {
+            this.props.pressEnter();
+        }
+    }
+
     render() {
         let category=["Vehicle", "Book", "Other", "Appliance", "--Please choose an option--"]
         const categoryReact = category.map((c)=> {return <option value={c} key={c}>{c}</option>})
         return (
             <div className="searchBox" style={{position: "absolute",width: "70%", left: "15%", right:"15%", top: "10%",height :"20%", padding: "10px", display: "block"}}>
                 <div style={{width: "100%"}}>
-                    <input type='Text' value={this.props.searchString}  id="searchString" onChange={this.handleChange} style={{height: "30px", size:"100%"}}/>
+                    <input type='Text' value={this.props.searchString}  id="searchString" onChange={this.handleChange} onKeyDown={this.handleKeyDown} style={{height: "30px", size:"100%"}}/>
                 </div>
                 <div>
                     <label for="priceRange" id="priceRange">Choose a price range</label>
@@ -41,6 +49,13 @@ export default class SearchBox extends React.Component {
                     <select id="category" value={this.props.category} onChange={this.handleChange}>
                         {categoryReact}
                     </select>
+                </div>
+                <div className='main'>
+                    <ul>
+                        {this.props.itemsFiltered.map((item) => {
+                            return <li><ItemBox imgPath={item.imgPath} price={item.price} category={item.category} description={this.description} title={this.title}/></li>
+                        })}
+                    </ul>
                 </div>
                 
             </div>

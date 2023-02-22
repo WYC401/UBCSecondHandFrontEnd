@@ -15,11 +15,14 @@ export default class App extends React.Component {
       atWhichPage: "search",
       searchString: "",
       priceRange: "",
-      cateogry:""
+      cateogry:"",
+      itemsFiltered: [],
+      thisUser: ""
     };
     this.handleSideMenuClick = this.handleSideMenuClick.bind(this);
 
     this.handleUpperMenuClick = this.handleUpperMenuClick.bind(this);
+    this.handleEnterInSearch = this.handleEnterInSearch.bind(this);
   }
   handleSideMenuClick(name) {
     if(name==="Post New Item") {
@@ -37,6 +40,26 @@ export default class App extends React.Component {
     if(name === "Item Page") {
       this.setState({ atWhichPage: "item"})
     }
+  }
+
+  handleEnterInSearch() {
+    const url = "";//set it to empty when it is localhost
+    console.log(`${url}/api/items/search?keywords=${this.state.searchString}`);
+    fetch( `${url}/api/items/search?keywords=${this.state.searchString}`, 
+    {method: "GET", mode: 'no-cors'})
+    .then((response) => {
+      //console.log(response.json());
+      console.log("method ends");
+      if(!response.ok) {
+        throw new Error(`This is an HTTP error: The status is ${response.status}`);
+      }
+      
+      return response.json();
+    }).then((result) => {
+      this.setState({itemsFiltered: result});
+    });
+
+
   }
 
   render() {
@@ -71,7 +94,7 @@ export default class App extends React.Component {
     }
     let MainPage = null;
     if(this.state.atWhichPage === "search") {
-      MainPage = <div  className="downBackground"><SearchBox onSearchStringChange={(searchString) => {this.setState({searchString:searchString })}} searchString={this.state.searchString} onPriceRangeChange={(range)=> {this.setState({priceRange: range})}} priceRange={this.state.priceRange} onCategoryChange={(category)=>{this.setState({category: category})}} category={this.state.category}/></div>
+      MainPage = <div  className="downBackground"><SearchBox onSearchStringChange={(searchString) => {this.setState({searchString:searchString })}} searchString={this.state.searchString} onPriceRangeChange={(range)=> {this.setState({priceRange: range})}} priceRange={this.state.priceRange} onCategoryChange={(category)=>{this.setState({category: category})}} category={this.state.category} pressEnter={this.handleEnterInSearch} itemsFiltered = {this.state.itemsFiltered} /></div>
     } else if(this.state.atWhichPage === "item") {
       MainPage = (
         <div  className="downBackground">
