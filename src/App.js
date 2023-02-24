@@ -14,8 +14,8 @@ export default class App extends React.Component {
       atHistoryPage: true,
       atWhichPage: "search",
       searchString: "",
-      priceRange: "",
-      cateogry:"",
+      priceRange: "--Please choose an option--",
+      category:"--Please choose an option--",
       itemsFiltered: [],
       thisUser: ""
     };
@@ -34,30 +34,52 @@ export default class App extends React.Component {
 
   handleUpperMenuClick(name) {
     if(name === "Search Page") {
-      this.setState({ atWhichPage: "search"})
+      this.setState({ atWhichPage: "search"});
     }
 
     if(name === "Item Page") {
-      this.setState({ atWhichPage: "item"})
+      this.setState({ atWhichPage: "item"});
     }
   }
 
   handleEnterInSearch() {
     const url = "";//set it to empty when it is localhost
     console.log(`${url}/api/items/search?keywords=${this.state.searchString}`);
-    fetch( `${url}/api/items/search?keywords=${this.state.searchString}`, 
-    {method: "GET", mode: 'no-cors'})
-    .then((response) => {
-      //console.log(response.json());
-      console.log("method ends");
-      if(!response.ok) {
-        throw new Error(`This is an HTTP error: The status is ${response.status}`);
+    if(this.state.searchString.length!=0) {
+      let apiURL = `${url}/api/items/search?keywords=${this.state.searchString}`;
+      if(this.state.priceRange!= "--Please choose an option--") {
+        if(this.state.priceRange.includes(">")) {
+          const lowerBound = this.state.priceRange.split(">");
+          //console.log(lowerBound);
+          apiURL+=`&price=gt${parseFloat(lowerBound[1])}`;
+        } else {
+          const lowerBound = this.state.priceRange.split(",").map((num) => {return parseFloat(num)});
+
+          //console.log(this.state.priceRange.split(","));
+          apiURL+=`&price=gt${lowerBound[0]}&price=lt${lowerBound[1]}`;
+        }
+        
       }
-      
-      return response.json();
-    }).then((result) => {
-      this.setState({itemsFiltered: result});
-    });
+
+      if(this.state.category != "--Please choose an option--") {
+        apiURL+=`&category=${this.state.category}`;
+      }
+      console.log(apiURL);
+      fetch( apiURL, 
+      {method: "GET", mode: 'no-cors'})
+      .then((response) => {
+        //console.log(response.json());
+        console.log("method ends");
+        if(!response.ok) {
+          throw new Error(`This is an HTTP error: The status is ${response.status}`);
+        }
+        
+        return response.json();
+      }).then((result) => {
+        this.setState({itemsFiltered: result});
+      });
+    }
+    
 
 
   }

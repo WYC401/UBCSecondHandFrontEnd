@@ -27,7 +27,7 @@ export default class SearchBox extends React.Component {
     }
 
     render() {
-        let category=["Vehicle", "Book", "Other", "Appliance", "--Please choose an option--"]
+        let category=[ "--Please choose an option--","Vehicle", "Book", "Other", "Appliance"]
         const categoryReact = category.map((c)=> {return <option value={c} key={c}>{c}</option>})
         return (
             <div className="searchBox" style={{position: "absolute",width: "70%", left: "15%", right:"15%", top: "10%",height :"20%", padding: "10px", display: "block"}}>
@@ -38,7 +38,7 @@ export default class SearchBox extends React.Component {
                     <label for="priceRange" id="priceRange">Choose a price range</label>
                     <select id="priceRange" value={this.props.priceRange} onChange={this.handleChange}>
                         <option value="">--Please choose an option--</option>
-                        <option value="0,25">0~25</option>
+                        <option value="0,25">0-25</option>
                         <option value="25,50">25-50</option>
                         <option value="50,100">50-100</option>
                         <option value="100,200">100-200</option>
@@ -53,7 +53,8 @@ export default class SearchBox extends React.Component {
                 <div className='main'>
                     <ul>
                         {this.props.itemsFiltered.map((item) => {
-                            return <li><ItemBox imgPath={item.imgPath} price={item.price} category={item.category} description={this.description} title={this.title}/></li>
+                            //console.log(item._id);
+                            return <li key={item._id}><ItemBox imgPath={item.imgPath} price={item.price} category={item.category} description={item.description} title={item.title}/></li>
                         })}
                     </ul>
                 </div>
