@@ -6,7 +6,8 @@ import ItemBox from './components/ItemBox';
 import React, { Component } from 'react';
 import ItemInputPage from './components/ItemInputPage';
 import SearchBox from './components/FilterBox';
-
+import {Routes, Route, useNavigate} from 'react-router-dom';
+import LoginPage from './components/LoginPage';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +69,7 @@ export default class App extends React.Component {
       fetch( apiURL, 
       {method: "GET", mode: 'no-cors'})
       .then((response) => {
-        //console.log(response.json());
+        console.log(response);
         console.log("method ends");
         if(!response.ok) {
           throw new Error(`This is an HTTP error: The status is ${response.status}`);
@@ -76,8 +77,12 @@ export default class App extends React.Component {
         
         return response.json();
       }).then((result) => {
+        
         this.setState({itemsFiltered: result});
       });
+
+    
+
     }
     
 
@@ -125,12 +130,20 @@ export default class App extends React.Component {
       </div>
       )
     }
-    //console.log(ItemBoxList);
-    return (
+
+    const content = (
       <div className='wholeBackground'>
       <UpperMenue onClick={this.handleUpperMenuClick}/>
       {MainPage}
       </div>
+    );
+    //console.log(ItemBoxList);
+    return (
+      <Routes>
+        <Route path="/" element={content}/>
+        <Route path="/login" element={<LoginPage/>}/>
+
+      </Routes>
     );
   }
   
