@@ -70,7 +70,8 @@ function LoginPage() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-  
+
+    const url = "";
     const handleUsernameChange = (event) => {
       if(event.target.id === "username") {
         setUsername(event.target.value);
@@ -86,7 +87,7 @@ function LoginPage() {
   
     const handleSubmit = (event) => {
       event.preventDefault();
-      const url = "";
+      
       const authURL = `${url}/api/auth/login`;
       console.log(authURL);
       fetch(authURL, {
@@ -129,7 +130,8 @@ function LoginPage() {
             <input type="password" id="password" value={password} onChange={handlePasswordChange} />
           </label>
           <br />
-          <button type="submit">Submit</button>
+          <button type="submit">login</button>
+          <a href={`${url}/register`}>New User</a>
         </form>
       </div>
     );

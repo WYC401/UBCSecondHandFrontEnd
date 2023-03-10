@@ -8,6 +8,7 @@ import ItemInputPage from './components/ItemInputPage';
 import SearchBox from './components/FilterBox';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -111,7 +112,7 @@ export default class App extends React.Component {
     ]
     //console.log(itemList);
     const ItemBoxList = itemList.map((item)=>{
-      return <li key={item.id}>{<ItemBox imgPath={item.imgPath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
+      return <li key={item.id}>{<ItemBox hasAction={true} imgPath={item.imgPath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
     });
     let MainPageItem = null; 
     if(this.state.atHistoryPage) {
@@ -142,7 +143,7 @@ export default class App extends React.Component {
       <Routes>
         <Route path="/" element={content}/>
         <Route path="/login" element={<LoginPage/>}/>
-
+        <Route path="/register" element={<RegisterPage/>}/>
       </Routes>
     );
   }
