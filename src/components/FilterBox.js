@@ -54,7 +54,7 @@ export default class SearchBox extends React.Component {
                     <ul>
                         {this.props.itemsFiltered.map((item) => {
                             //console.log(item._id);
-                            return <li key={item._id}><ItemBox hasAction={false} imgPath={item.imgPath} price={item.price} category={item.category} description={item.description} title={item.title}/></li>
+                            return <li key={item._id}><ItemBox hasAction={false} imgPath={item.picturePath} price={item.price} category={item.category} description={item.description} title={item.title}/></li>
                         })}
                     </ul>
                 </div>

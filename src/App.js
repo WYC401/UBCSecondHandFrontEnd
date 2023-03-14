@@ -19,7 +19,8 @@ export default class App extends React.Component {
       priceRange: "--Please choose an option--",
       category:"--Please choose an option--",
       itemsFiltered: [],
-      thisUser: ""
+      thisUser: "",
+      userOwnedItemList: []
     };
     this.handleSideMenuClick = this.handleSideMenuClick.bind(this);
 
@@ -31,6 +32,20 @@ export default class App extends React.Component {
       this.setState({atHistoryPage: false});
     } else {
       this.setState({atHistoryPage: true});
+      const url = "";
+      const getItemURL = `${url}/api/items`;
+      fetch(getItemURL, {
+        method: "GET",
+        mode: 'no-cors'
+      }).then((response) => {
+        if(!response.ok) {
+          throw new Error(`This is an HTTP error: The status is ${response.status}`);
+        
+        }
+        return response.json();
+      }).then((res) => {
+        this.setState({userOwnedItemList: res});
+      });
     }
   }
 
@@ -90,6 +105,22 @@ export default class App extends React.Component {
 
   }
 
+  handleItemDelete(id) {
+    const url = "";//set it to empty when it is localhost
+    const deleteURL = `${url}/api/items/${id}`;
+    fetch(deleteURL, {
+      method: 'DELETE'
+    }).then((response) => {
+      if(response.status != 200) {
+        throw new Error("Can not be deleted");
+      } else {
+        let copyItemArray = [...this.state.userOwnedItemList];
+        
+        this.setState({userOwnedItemList: copyItemArray.filter((item, index, arr) => {return item._id != id})});
+      }
+    })
+  }
+
   render() {
     
     const itemList = [
@@ -110,9 +141,9 @@ export default class App extends React.Component {
         description: "a 95% new iphone only used for 2 months"
       }
     ]
-    //console.log(itemList);
-    const ItemBoxList = itemList.map((item)=>{
-      return <li key={item.id}>{<ItemBox hasAction={true} imgPath={item.imgPath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
+    console.log( this.state.userOwnedItemList);
+    const ItemBoxList = this.state.userOwnedItemList.map((item)=>{
+      return <li key={item._id}>{<ItemBox onDelete={() => {this.handleItemDelete(item._id)}} hasAction={true} imgPath={item.picturePath} title={item.title} price={item.price} category={item.category} description={item.description}/>}</li>
     });
     let MainPageItem = null; 
     if(this.state.atHistoryPage) {

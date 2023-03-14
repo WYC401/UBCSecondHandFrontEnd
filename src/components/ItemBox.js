@@ -6,8 +6,8 @@ class ItemDropdown extends React.Component {
             <div className="ItemDropdown">
                 <button>&#9660; Action</button>
                 <div className='dropDownContent'>
-                    <span>Delete</span>
-                    <span>Modify</span>
+                    <span onClick={this.props.deleteHandler}>Delete</span>
+                    <span onClick={this.props.modifyHandler}>Modify</span>
                 </div>
             </div>
         );
@@ -23,7 +23,7 @@ export default class ItemBox extends React.Component {
                         <img src={this.props.imgPath} alt="" style={{height: '80%', width: '40%', aspectRatio: 3/2}}></img>
                     </div>
                     <div className='itemText'>
-                        <ItemDropdown/>
+                        <ItemDropdown deleteHandler={this.props.onDelete}/>
                         <p>{"Title: "+this.props.title}</p>
                         <p>{"Price: "+this.props.price}</p>
                         <p>{"Category: "+this.props.category}</p>
